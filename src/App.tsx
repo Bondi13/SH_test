@@ -20,9 +20,7 @@ function calculateOccupancy(premiumRooms: any, economyRooms: any) {
         premiumRooms--;
       }
       guestsUnaccomodated--;
-    }
-
-    if (guest < 100) {
+    } else {
       roomsLeft = premiumRooms + economyRooms;
       if (roomsLeft > guestsUnaccomodated)
         premiumRooms -= roomsLeft - guestsUnaccomodated;
