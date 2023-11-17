@@ -9,22 +9,34 @@ function calculateOccupancy(premiumRooms: any, economyRooms: any) {
   let economyOccupancy = 0;
   let premiumRevenue = 0;
   let economyRevenue = 0;
+  let guestsUnaccomodated = sortedGuests.length;
+  let roomsLeft;
 
   for (const guest of sortedGuests) {
     if (guest >= 100) {
-      continue;
+      if (premiumRooms > 0) {
+        premiumOccupancy++;
+        premiumRevenue += guest;
+        premiumRooms--;
+      }
+      guestsUnaccomodated--;
     }
 
-    if (premiumRooms > 0) {
-      premiumOccupancy++;
-      premiumRevenue += guest;
-      premiumRooms--;
-    } else if (economyRooms > 0) {
-      economyOccupancy++;
-      economyRevenue += guest;
-      economyRooms--;
-    } else {
-      break;
+    if (guest < 100) {
+      roomsLeft = premiumRooms + economyRooms;
+      if (roomsLeft > guestsUnaccomodated)
+        premiumRooms -= roomsLeft - guestsUnaccomodated;
+      if (premiumRooms > 0) {
+        premiumOccupancy++;
+        premiumRevenue += guest;
+        premiumRooms--;
+      } else if (economyRooms > 0) {
+        economyOccupancy++;
+        economyRevenue += guest;
+        economyRooms--;
+      } else {
+        break;
+      }
     }
   }
 
